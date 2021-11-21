@@ -1,5 +1,5 @@
 #include "get_next_line.h"
-#define BUF_SIZE	10000
+#define BUF_SIZE	100000000
 #include <string.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -14,7 +14,7 @@ int ft_strlen(char *c)
 	return (--i);
 }
 
-char	*ft_strdup(const char *str)
+char	*ft_strdup(char *str)
 {
 	size_t	i;
 	char	*ptr;
@@ -29,14 +29,17 @@ char	*ft_strdup(const char *str)
 		i++;
 	}
 	ptr[i] = '\0';
+//	if (str)
+//		free(str);
 	return (&ptr[0]);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2, char c)
+char	*ft_strjoin(char *s1, char *s2, char c)
 {
 	char	*str;
 	size_t	i;
 	size_t	j;
+	int		flag = 0;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -77,6 +80,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*rem;
 	int			ret;
+	static int	flag = 1;
 	
 	str = (char *)malloc(BUF_SIZE + 1);
 	line = ft_strdup("");
@@ -110,53 +114,10 @@ char	*get_next_line(int fd)
 			line = ft_strjoin(line, str, '\0');
 		}
 	}
-	if (line)
+	if (ft_strlen(line) != 0 && flag == 1)
+	{
+		flag = 0;
 		return (line);
+	}
 	return (NULL);
-}
-
-int main()
-{
-	int fd;
-	int n = 5;
-
-	fd = open("aboba",  O_RDONLY);
-	if (fd < 0)
-		printf("error 1");
-//	while (n--)
-//	{
-		printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-	printf("[%s]", get_next_line(fd));
-//	printf("[%s]", get_next_line(fd));
-//	printf("[%s]", get_next_line(fd));
-	
-//		printf("\n/////////////////////////////////\n");
-//	}
 }
